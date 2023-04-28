@@ -34,15 +34,11 @@ services:
 
   seeder-service:
     build: seeder-service
-    container_name: seeder
-    ports:
-      - '3104:3104'
     depends_on:
       - postgres
   
   auth-service:
     build: auth-service
-    container_name: auth
     ports:
       - '3100:3100'
     depends_on:
@@ -50,7 +46,6 @@ services:
 
   data-collector-service:
     build: data-collector-service
-    container_name: data-collector
     ports:
       - '3101:3101'
     depends_on:
@@ -59,22 +54,13 @@ services:
   
   processing-service:
     build: processing-service
-    container_name: processing
-    ports:
-      - '3102:3102'
+    deploy:
+      replicas: 2
     depends_on:
       - data-collector-service
-  
-  processing-service2:
-    build: processing-service
-    container_name: processing2
-    ports:
-      - '3105:3102'
-    depends_on:
-      - data-collector-service
+
   data-mart-service:
     build: data-mart-service
-    container_name: data-mart
     ports:
       - '3103:3103'
     depends_on:
