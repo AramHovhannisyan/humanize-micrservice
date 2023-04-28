@@ -2,7 +2,6 @@ import express, { Request, Response, NextFunction } from 'express';
 import compression from 'compression';
 import logger from 'morgan';
 import cors from 'cors';
-import path from 'path';
 import { config } from "./config/config";
 import { Err } from "./types/ErrorTypes";
 import problem from './errorHandling/problem';
@@ -30,7 +29,6 @@ app.use(express.json({limit: '10kb'}));
 app.use(express.urlencoded({extended: true, limit: '10kb'}));
 
 app.use(compression());
-app.use('/public', express.static(path.join(process.cwd(), 'public')));
 
 /**
  * Routes

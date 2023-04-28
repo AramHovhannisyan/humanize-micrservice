@@ -13,7 +13,7 @@ const startConsumer = async () => {
     return consumer;
   
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };

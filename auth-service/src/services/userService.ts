@@ -47,7 +47,7 @@ const login = async (username: string, password: string) => {
     return token;
 
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 

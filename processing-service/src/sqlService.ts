@@ -37,7 +37,7 @@ const saveTodoItem = async (item: todoItemType) => {
     
     return msgSaved.count;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };
@@ -52,7 +52,7 @@ const getTodoItemsCount = async () => {
     
     return todos[0];
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };

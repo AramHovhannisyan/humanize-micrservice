@@ -18,7 +18,7 @@ const saveData = async (msg: producedMsgType) => {
 
     return dataSaved;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 
 };
@@ -32,7 +32,7 @@ const getTodosCount = async () => {
 
     return dataSaved[0].todos_count;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };

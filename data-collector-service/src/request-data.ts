@@ -8,7 +8,7 @@ const requestData = async (url: string) => {
 
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };

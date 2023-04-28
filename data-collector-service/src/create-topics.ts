@@ -27,7 +27,7 @@ async function createTopicsIfNotExists() {
 
     await admin.disconnect();
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 

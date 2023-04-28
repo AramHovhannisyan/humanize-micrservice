@@ -6,7 +6,7 @@ async function bootstrap() {
     await seed();
     
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
