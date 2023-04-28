@@ -5,9 +5,9 @@ import { generateJWTToken } from '../controllers/jwtController';
 
 const createOne = async (username: string, password: string) => {
   try {
-    const condidate = await sql`SELECT * FROM public.users WHERE username=${username} ORDER BY id ASC`;
+    const candidate = await sql`SELECT * FROM public.users WHERE username=${username} ORDER BY id ASC`;
     
-    if (condidate.count) {
+    if (candidate.count) {
       return null;
     } else {}
 
@@ -30,19 +30,19 @@ const createOne = async (username: string, password: string) => {
 
 const login = async (username: string, password: string) => {
   try {
-    const condidate = await sql<User[]>`SELECT * FROM public.users WHERE username=${username} ORDER BY id ASC`;
+    const candidate = await sql<User[]>`SELECT * FROM public.users WHERE username=${username} ORDER BY id ASC`;
     
-    if (!condidate.count) {
+    if (!candidate.count) {
       return null;
     }
 
-    const arePasswordsEqual = await bcrypt.compare(password, condidate[0].password);
+    const arePasswordsEqual = await bcrypt.compare(password, candidate[0].password);
 
     if (!arePasswordsEqual) {
       return null;
     }
 
-    const token = generateJWTToken(condidate[0]);
+    const token = generateJWTToken(candidate[0]);
 
     return token;
 
