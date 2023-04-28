@@ -1,0 +1,81 @@
+version: '3.9'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.2
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  broker:
+    image: confluentinc/cp-kafka:7.3.2
+    container_name: broker
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092,PLAINTEXT_INTERNAL://broker:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: humanize
+
+  seeder-service:
+    build: seeder-service
+    container_name: seeder
+    ports:
+      - '3104:3104'
+    depends_on:
+      - postgres
+  
+  auth-service:
+    build: auth-service
+    container_name: auth
+    ports:
+      - '3100:3100'
+    depends_on:
+      - seeder-service
+
+  data-collector-service:
+    build: data-collector-service
+    container_name: data-collector
+    ports:
+      - '3101:3101'
+    depends_on:
+      - broker
+      - seeder-service
+  
+  processing-service:
+    build: processing-service
+    container_name: processing
+    ports:
+      - '3102:3102'
+    depends_on:
+      - data-collector-service
+  
+  processing-service2:
+    build: processing-service
+    container_name: processing2
+    ports:
+      - '3105:3102'
+    depends_on:
+      - data-collector-service
+  data-mart-service:
+    build: data-mart-service
+    container_name: data-mart
+    ports:
+      - '3103:3103'
+    depends_on:
+      - processing-service
