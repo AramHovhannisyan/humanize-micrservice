@@ -15,10 +15,9 @@ const bootstrapQueue = async () => {
 
   await consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
-      console.log(`\n\n\n New Msg on PROCESSOR SERVICE partition: ${partition} Received: ${message}`);
 
       if (message && message.value) {
-        console.log('message.value toString:', message.value.toString());
+        console.log(`\n\n\n New Msg on PROCESSOR SERVICE partition: ${partition} Received: ${message.value.toString()}`);
         
         const dataJson = JSON.parse(message.value.toString());
         if (!dataJson) {

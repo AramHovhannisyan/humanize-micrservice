@@ -3,4 +3,4 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-CMD sleep 30 && npm run prod
+CMD sleep 5 && npm run prod
